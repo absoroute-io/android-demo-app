@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">ASR Demo App</string>
+    <string name="button_face_recognition_config">Face Recognition Config</string>
+    <string name="button_face_recognition_video_demo">Face Recognition Video Demo</string>
+    <string name="button_face_recognition_image_demo">Face Recognition Image Demo</string>
+    <string name="title_activity_fr_config">FrConfigActivity</string>
+    <string name="tab_text_1">Register new face</string>
+    <string name="tab_text_2">Registered faces</string>
+    <string name="choose_images">Choose images</string>
+    <string name="clear_selection">Clear selection</string>
+    <string name="register_face">Register face</string>
+    <string name="button_face_detection_demo">Face Detection Demo</string>
+    <string name="rotate">Rotate</string>
+</resources>

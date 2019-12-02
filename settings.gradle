@@ -1,0 +1,2 @@
+include ':app', ':visionai-debug'
+rootProject.name='ASR Demo App'

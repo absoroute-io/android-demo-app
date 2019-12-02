@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "982968110021",
+    "firebase_url": "https://projectx-204113.firebaseio.com",
+    "project_id": "projectx-204113",
+    "storage_bucket": "projectx-204113.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982968110021:android:56f5188991e928baab19ac",
+        "android_client_info": {
+          "package_name": "com.absoroute.io"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "982968110021-122f4bj5hjvg9f4csmqbn4fb72r53ekf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUFT1i6FGusujQpxuKEx8-OSjV8X9RIYE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "982968110021-122f4bj5hjvg9f4csmqbn4fb72r53ekf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982968110021:android:b21b9526331ea8f7ab19ac",
+        "android_client_info": {
+          "package_name": "com.absoroute.io.demoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "982968110021-122f4bj5hjvg9f4csmqbn4fb72r53ekf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUFT1i6FGusujQpxuKEx8-OSjV8X9RIYE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "982968110021-122f4bj5hjvg9f4csmqbn4fb72r53ekf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982968110021:android:e3cce8a71add5569ab19ac",
+        "android_client_info": {
+          "package_name": "com.absoroute.io.visionai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "982968110021-122f4bj5hjvg9f4csmqbn4fb72r53ekf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUFT1i6FGusujQpxuKEx8-OSjV8X9RIYE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "982968110021-122f4bj5hjvg9f4csmqbn4fb72r53ekf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
