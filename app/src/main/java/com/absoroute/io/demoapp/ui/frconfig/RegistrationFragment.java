@@ -9,6 +9,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class RegistrationFragment extends Fragment {
 
     private static final String TAG = "RegistrationFragment";
     private static final int REQUEST_CHOOSE_IMAGE = 1;
+    private static final int THUMBNAIL_WIDTH = 300;
     private static final int THUMBNAIL_HEIGHT = 300;
     private List<Bitmap> images;
     private View root;
@@ -141,15 +143,46 @@ public class RegistrationFragment extends Fragment {
 
         Log.d(TAG, String.format("Displaying %d images", images.size()));
 
-        for (Bitmap image: images) {
+        for (int i = 0; i < images.size(); i++) {
+            Bitmap image = images.get(i);
+            final int imgIdx = i;
+
+            // linear layout for this BG image
+            final LinearLayout imgLayout = new LinearLayout(getContext());
+            imgLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            ));
+            imgLayout.setOrientation(LinearLayout.HORIZONTAL);
+            imgLayout.setGravity(Gravity.CENTER_HORIZONTAL);
+
+            // add image
             ImageView imgView = new ImageView(this.getContext());
             imgView.setImageBitmap(image);
             imgView.setLayoutParams(new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    THUMBNAIL_WIDTH,
                     THUMBNAIL_HEIGHT
             ));
-            imgView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            thumbnailLayout.addView(imgView);
+            imgView.setScaleType(ImageView.ScaleType.FIT_START);
+            imgLayout.addView(imgView);
+
+            // add rotate button
+            Button rotateButton = new Button(getContext());
+            rotateButton.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            ));
+            rotateButton.setText(R.string.rotate);
+            rotateButton.setOnClickListener(v -> {
+                    Log.d(TAG, "Rotate image");
+                    Matrix matrix = new Matrix();
+                    matrix.setRotate(90, image.getWidth() / 2f, image.getHeight() / 2f);
+                    images.set(imgIdx, Bitmap.createBitmap(image, 0, 0, image.getWidth(), image.getHeight(), matrix, true));
+                    displayImages(images);
+            });
+            imgLayout.addView(rotateButton);
+
+            thumbnailLayout.addView(imgLayout);
         }
     }
 

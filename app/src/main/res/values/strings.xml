@@ -10,4 +10,5 @@
     <string name="clear_selection">Clear selection</string>
     <string name="register_face">Register face</string>
     <string name="button_face_detection_demo">Face Detection Demo</string>
+    <string name="rotate">Rotate</string>
 </resources>

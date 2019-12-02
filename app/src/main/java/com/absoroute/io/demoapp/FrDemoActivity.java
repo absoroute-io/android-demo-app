@@ -29,7 +29,6 @@ public class FrDemoActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_PERMISSIONS = 42;
     private TextureView textureView;
     private TextView textView;
-    private Long lastTimestamp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,22 +37,12 @@ public class FrDemoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fr_demo);
         textureView = findViewById(R.id.view_preview);
         textView = findViewById(R.id.text_fr_label);
-        lastTimestamp = System.currentTimeMillis();
 
         if (allPermissionGranted()) {
             initialize();
         } else {
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "onDestroy");
-
-        // Free up memory used for internal ML models.
-        FaceRecognizer.getInstance().stop();
     }
 
     private boolean allPermissionGranted() {
@@ -92,22 +81,30 @@ public class FrDemoActivity extends AppCompatActivity {
         CameraX.bindToLifecycle(this, preview);
 
         // (Re)initialize FaceRecognizer for video processing
-        FaceRecognizer.FaceRecognizerConfig config = new FaceRecognizer.FaceRecognizerConfig();
-        config.context = getApplicationContext();
-        config.lensFacing = CameraX.LensFacing.FRONT;
-        config.totalThreads = MainActivity.ML_THREADS;
-        config.useGpu = MainActivity.USE_GPU;
-        config.lifecycleOwner = this;
-        config.callback = faces -> {
-            for (RecognizedFace face: faces) {
-                Long latency = System.currentTimeMillis() - lastTimestamp;
-                lastTimestamp = System.currentTimeMillis();
-                String msg = String.format("Detected %s, latency %d ms", face.id, latency);
-                Log.d(TAG, msg);
+        if (!FaceRecognizer.isInitializedForVideoProcessing()) {
+            // Construct a config object. Usually you only need to set the context for image
+            // processing use case, and set the lensFacing, the callback and lifecycleOwner in
+            // addition for video processing use case. Other parameters have sensible default values
+            // already.
+            FaceRecognizer.FaceRecognizerConfig config = new FaceRecognizer.FaceRecognizerConfig();
+            config.context = getApplicationContext();
+            config.lensFacing = CameraX.LensFacing.FRONT;
+            config.totalThreads = MainActivity.ML_THREADS;
+            config.useGpu = MainActivity.USE_GPU;
+            config.lifecycleOwner = this;
+            config.callback = faces -> {
+
+                String msg = "Detection result:";
+
+                for (RecognizedFace face: faces) {
+                    msg = msg + String.format("\n\t%s", face.id);
+                    Log.d(TAG, "Detected " + face.id);
+                }
+
                 textView.setText(msg);
-            }
-        };
-        FaceRecognizer.initialize(config);
+            };
+            FaceRecognizer.initialize(config);
+        }
     }
 
     private void updateTransform() {
