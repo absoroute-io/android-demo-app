@@ -6,10 +6,8 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.camera.core.CameraX;
 
 import com.absoroute.io.visionai.FaceRecognizer;
-import com.absoroute.io.visionai.FaceRecognizer.FaceRecognizerConfig;
 
 public class MainActivity extends AppCompatActivity {
 
