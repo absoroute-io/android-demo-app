@@ -81,7 +81,7 @@ TODO - Add documentation
 
 ## Face recognition API
 
-The class `com.absoroute.io.visionai.FaceRecognizer` provides the main APIs to interact with the SDK for face recognition feature. This class is a Singleton with static methods to initialise, register faces, request image / video processing and stop it from anywhere within your application. You can initialize it to support 2 main use cases, namely an **image processing** and **video processing** use cases. The **image processing** use case allows you to submit an image to the SDK one image at a time to see if there exists registered faces within or not. The **video processing** use case allows you to have the SDK monitoring video stream captured from the device's camera in the background continuously. Once the SDK detects and recognizes faces in the video, it will notify the main UI thread via a registered callback function. You do not need to setup and manage complicated threading mechanics to operate the camera. The SDK does that for you behind the scene. 
+The public APIs provided by the SDK are all under the package `com.absoroute.io.visionai`. The class `FaceRecognizer` provides the main APIs to interact with the SDK for face recognition feature. This class is a Singleton with static methods to initialise, register faces, request image / video processing and stop it from anywhere within your application. You can initialize it to support 2 main use cases, namely an **image processing** and **video processing** use cases. The **image processing** use case allows you to submit an image to the SDK one image at a time to see if there exists registered faces within or not. The **video processing** use case allows you to have the SDK monitoring video stream captured from the device's camera in the background continuously. Once the SDK detects and recognizes faces in the video, it will notify the main UI thread via a registered callback function. You do not need to setup and manage complicated threading mechanics to operate the camera. The SDK does that for you behind the scene. 
 
 ### Initialisation
 Before using the `FaceRecognizer`, you must initialize it first by calling `FaceRecognizer.initialize()` and providing an `FaceRecognizer.FaceRecognizerConfig` object to it somewhere in your application. For example, you can check if it's been initialized and ready for use in the `onCreate()` of the Activity that needs to interact with it. 
@@ -95,7 +95,7 @@ if (!FaceRecognizer.isInitialized()) {
 }
 ```
 
-The above initialization is adequate for **image processing** use case (see [FrConfigActivity](https://github.com/absoroute-io/android-demo-app/blob/master/app/src/main/java/com/absoroute/io/demoapp/FrConfigActivity.java)), and for registration of faces. However if you'd like to use it for **video processing** use case, check if it's been properly initialized for video processing and (re)-initialize if necessary in the Activity's `onCreate()` similar to the following (see [FrDemoActivity](https://github.com/absoroute-io/android-demo-app/blob/master/app/src/main/java/com/absoroute/io/demoapp/FrDemoActivity.java)).
+The above initialization is adequate for **image processing** use case (see [FrConfigActivity](https://github.com/absoroute-io/android-demo-app/blob/master/app/src/main/java/com/absoroute/io/demoapp/FrConfigActivity.java#L23)), and for registration of faces. However if you'd like to use it for **video processing** use case, check if it's been properly initialized for video processing and (re)-initialize if necessary in the Activity's `onCreate()` similar to the following (see [FrDemoActivity](https://github.com/absoroute-io/android-demo-app/blob/master/app/src/main/java/com/absoroute/io/demoapp/FrDemoActivity.java#L84)).
 
 ```java
 // (Re)initialize FaceRecognizer for video processing
@@ -120,12 +120,20 @@ Note the additional parameters to pass on as follows
 
 There are APIs to perform CRUD operations on registered faces as follows.
 
-* ```public synchronized Task<String> registerFace(final List<Bitmap> images)``` takes a list of Bitmap images, each containing one and only one face of the person you want to register. The images must be correctly rotated to align with the current display orientation. The registration can take several seconds. If you'd like to be notified on the result, you can add listeners to the returned task. If the registration is successful, a unique face ID is given and returned with the task. There is no requirement on minimum number of images you have to use to register a person. However we recommend using at least 5 images, each depicting the face of the same person from slightly different angles with no digital beauty filter applied. Try to use as natural images of the person as much as possible so face recognition is more accurate under real-life operating condition.
+* `public synchronized Task<String> registerFace(final List<Bitmap> images)` takes a list of Bitmap images, each containing one and only one face of the person you want to register. The images must be correctly rotated to align with the current display orientation. The registration can take several seconds. If you'd like to be notified on the result, you can add listeners to the returned task. If the registration is successful, a unique face ID is given and returned with the task. There is no requirement on minimum number of images you have to use to register a person. However we recommend using at least 5 images, each depicting the face of the same person from slightly different angles with no digital beauty filter applied. Try to use as natural images of the person as much as possible so face recognition is more accurate under real-life operating condition.
 
-* ```public synchronized List<String> getRegisteredFaceIds()``` returns a list of all registered face IDs.
+* `public synchronized List<String> getRegisteredFaceIds()` returns a list of all registered face IDs.
 
-* ```public synchronized void deleteRegisteredFace(final String id)``` deletes the registered face with the given face ID. 
+* `public synchronized void deleteRegisteredFace(final String id)` deletes the registered face with the given face ID. 
+
+See [FrConfigActivity](https://github.com/absoroute-io/android-demo-app/blob/master/app/src/main/java/com/absoroute/io/demoapp/FrConfigActivity.java) for face registration examples. 
 
 ### Handling of callback
 
+The callback object implements the `FaceRecognizer.FaceRecognizerCallback` interface. Its `void onRecognizeFaces(List<RecognizedFace> faces)` will be called by a background handler thread everytime it detects and recognizes faces in the video. The `faces` is a list of `RecognizedFace` objects, each contains information on the detected / recognized face. Specifically its ID, location in the image and Euler angles around the Y and Z axis.
+
+In [FrDemoActivity](https://github.com/absoroute-io/android-demo-app/blob/master/app/src/main/java/com/absoroute/io/demoapp/FrDemoActivity.java#L95), the callback is provided as a lambda function which does nothing but updating a `TextView` element of the UI.
+
 ### Stopping the FaceRecognizer
+
+Once the application is about to be terminated, you should call `FaceRecognizer.stop()` to gracefully terminate it. In our demo app, this is done at the `onDestroy()` method of the [MainActivity](https://github.com/absoroute-io/android-demo-app/blob/94a52026deccbb6624442b1bbac4f147160a13c6/app/src/main/java/com/absoroute/io/demoapp/MainActivity.java#L28).
