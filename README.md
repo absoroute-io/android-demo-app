@@ -132,7 +132,9 @@ See [FrConfigActivity](https://github.com/absoroute-io/android-demo-app/blob/mas
 
 The callback object implements the `FaceRecognizer.FaceRecognizerCallback` interface. Its `void onRecognizeFaces(List<RecognizedFace> faces)` will be called by a background handler thread everytime it detects and recognizes faces in the video. The `faces` is a list of `RecognizedFace` objects, each contains information on the detected / recognized face. Specifically its ID, location in the image and Euler angles around the Y and Z axis.
 
-In [FrDemoActivity](https://github.com/absoroute-io/android-demo-app/blob/master/app/src/main/java/com/absoroute/io/demoapp/FrDemoActivity.java#L95), the callback is provided as a lambda function which does nothing but updating a `TextView` element of the UI.
+In [FrDemoActivity](https://github.com/absoroute-io/android-demo-app/blob/master/app/src/main/java/com/absoroute/io/demoapp/FrDemoActivity.java#L95), the callback is provided as a lambda function which does nothing but updating a `TextView` element of the UI. It shows the face ID of the recognized person as shown below.
+
+![Recognized face ID is shown in the demo app](/ASR_DemoApp.jpg)
 
 ### Stopping the FaceRecognizer
 
