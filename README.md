@@ -95,7 +95,7 @@ if (!FaceRecognizer.isInitialized()) {
 }
 ```
 
-The above initialization is adequate for **image processing** use case (see[FrConfigActivity](https://github.com/absoroute-io/android-demo-app/blob/master/app/src/main/java/com/absoroute/io/demoapp/FrConfigActivity.java)), and for registration of faces. However if you'd like to use it for **video processing** use case, check if it's been properly initialized for video processing and (re)-initialize if necessary in the Activity's `onCreate()` similar to the following (see[FrDemoActivity](https://github.com/absoroute-io/android-demo-app/blob/master/app/src/main/java/com/absoroute/io/demoapp/FrDemoActivity.java)).
+The above initialization is adequate for **image processing** use case (see [FrConfigActivity](https://github.com/absoroute-io/android-demo-app/blob/master/app/src/main/java/com/absoroute/io/demoapp/FrConfigActivity.java)), and for registration of faces. However if you'd like to use it for **video processing** use case, check if it's been properly initialized for video processing and (re)-initialize if necessary in the Activity's `onCreate()` similar to the following (see [FrDemoActivity](https://github.com/absoroute-io/android-demo-app/blob/master/app/src/main/java/com/absoroute/io/demoapp/FrDemoActivity.java)).
 
 ```java
 // (Re)initialize FaceRecognizer for video processing
@@ -116,3 +116,16 @@ Note the additional parameters to pass on as follows
 * `lifecycleOwner` - a reference to a `LifecycleOwner`. Typically this is the Activity or anything that implements the Android's `LifecycleOwner` interface. The camera operation will be bound to the life cycle of this object.
 * `callback` - an implementation of the `FaceRecognizer.FaceRecognizerCallback` interface, whose `onRecognizeFaces()` will be called when a face is detected and recognized in the video. 
 
+### Face registration
+
+There are APIs to perform CRUD operations on registered faces as follows.
+
+* ```public synchronized Task<String> registerFace(final List<Bitmap> images)``` takes a list of Bitmap images, each containing one and only one face of the person you want to register. The images must be correctly rotated to align with the current display orientation. The registration can take several seconds. If you'd like to be notified on the result, you can add listeners to the returned task. If the registration is successful, a unique face ID is given and returned with the task. There is no requirement on minimum number of images you have to use to register a person. However we recommend using at least 5 images, each depicting the face of the same person from slightly different angles with no digital beauty filter applied. Try to use as natural images of the person as much as possible so face recognition is more accurate under real-life operating condition.
+
+* ```public synchronized List<String> getRegisteredFaceIds()``` returns a list of all registered face IDs.
+
+* ```public synchronized void deleteRegisteredFace(final String id)``` deletes the registered face with the given face ID. 
+
+### Handling of callback
+
+### Stopping the FaceRecognizer
