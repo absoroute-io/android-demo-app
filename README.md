@@ -134,7 +134,7 @@ The callback object implements the `FaceRecognizer.FaceRecognizerCallback` inter
 
 In [FrDemoActivity](https://github.com/absoroute-io/android-demo-app/blob/master/app/src/main/java/com/absoroute/io/demoapp/FrDemoActivity.java#L95), the callback is provided as a lambda function which does nothing but updating a `TextView` element of the UI to show the face ID of the recognized person as shown below.
 
-![Recognized face ID is shown in the demo app](/ASR_DemoApp.jpg)
+<p align="center">![Recognized face ID is shown in the demo app](/ASR_DemoApp.jpg)</p>
 
 ### Stopping the FaceRecognizer
 
